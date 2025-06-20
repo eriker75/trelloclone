@@ -1,0 +1,17 @@
+"use client"
+
+import { useSearchParams } from "next/navigation"
+import { AdminDashboard } from "@/components/dashboard/admin-dashboard"
+import { UserDashboard } from "@/components/dashboard/user-dashboard"
+
+export function DashboardContent() {
+  const searchParams = useSearchParams()
+  const isAdmin = searchParams.has("admin")
+  const isUser = searchParams.has("user") || (!searchParams.has("admin") && !searchParams.has("user"))
+
+  if (isAdmin) {
+    return <AdminDashboard />
+  }
+
+  return <UserDashboard />
+}
