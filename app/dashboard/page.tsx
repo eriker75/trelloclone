@@ -1,8 +1,8 @@
 "use client"
 
 import { Suspense } from "react"
+import dynamic from "next/dynamic"
 import { Skeleton } from "@/components/ui/skeleton"
-import { DashboardContent } from "./dashboard-content"
 
 function DashboardSkeleton() {
   return (
@@ -19,6 +19,11 @@ function DashboardSkeleton() {
     </div>
   )
 }
+
+const DashboardContent = dynamic(() => import("./dashboard-content").then(mod => ({ default: mod.DashboardContent })), {
+  ssr: false,
+  loading: () => <DashboardSkeleton />
+})
 
 export default function DashboardPage() {
   return (
