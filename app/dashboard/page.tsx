@@ -1,6 +1,6 @@
 "use client"
 
-import { Suspense } from "react"
+import { Suspense, useEffect, useState } from "react"
 import dynamic from "next/dynamic"
 import { Skeleton } from "@/components/ui/skeleton"
 
@@ -26,6 +26,16 @@ const DashboardContent = dynamic(() => import("./dashboard-content").then(mod =>
 })
 
 export default function DashboardPage() {
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
+  if (!isClient) {
+    return <DashboardSkeleton />
+  }
+
   return (
     <Suspense fallback={<DashboardSkeleton />}>
       <DashboardContent />

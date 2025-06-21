@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 import type React from "react"
-import { useState, useEffect, useMemo } from "react"
+import { useState, useEffect, useMemo, use } from "react"
 import { useRouter } from "next/navigation"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
@@ -41,7 +41,7 @@ const STATUS_COLORS = {
 } as const
 
 interface UserPerformancePageProps {
-  params: { userId: string }
+  params: Promise<{ userId: string }>
 }
 
 type TimePeriod = "week" | "twoWeeks" | "month"
@@ -106,7 +106,7 @@ const generateUserTasks = (userId: string): Task[] => {
 
 export default function UserPerformancePage({ params }: UserPerformancePageProps) {
   const router = useRouter()
-  const { userId } = params
+  const { userId } = use(params)
   const { toast } = useToast()
 
   const [user, setUser] = useState<UserProfile | null>(null)
